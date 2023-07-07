@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "reactpersonalwebsite1b2c2938": {}
+      },
+      "api": {
+        "reactpersonalwebsite": {}
+      },
+      "storage": {
+        "imagestorage": {}
       }
     }
   }
