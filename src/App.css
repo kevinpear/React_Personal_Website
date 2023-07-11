@@ -1,10 +1,11 @@
-.content-container {
-  padding-top: 9rem;
-  display: flex;
-  justify-content: center;
+.center-container {
+  top: 10rem;
+  width: 60%;
+  left: 20%;
+  position: absolute;
+  /*
+  outline: 1px solid gray;
+  */
+  padding: 1.5vw;
 }
 
-.bounded-box {
-  max-width: 960px;
-  margin: 0 1rem;
-}

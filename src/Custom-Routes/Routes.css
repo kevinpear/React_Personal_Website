@@ -1,0 +1,53 @@
+/* general */
+
+.route-header {
+  margin-top: 1.7vw;
+  margin-right: 1.5vw;
+  font-size: 1.2vw;
+  font-family: Arial;
+}
+
+.route-content {
+  /*
+  outline: 1px solid lightblue;
+  */
+  font-size: 1vw;
+  font-family: Arial;
+  word-wrap: break-word;
+}
+
+.Title {
+  font-size: 1.3vw;
+  font-family: Arial;
+  margin-top: 1.5vw;
+}
+
+
+a:link {
+  color: blue; /* Set the color for unvisited links */
+}
+
+a:visited {
+  color: purple; /* Set the color for visited links */
+}
+
+a:hover,
+a:focus {
+  color: red; /* Set the color for hovered and focused links */
+}
+
+a:active {
+  color: green; /* Set the color for active links (when clicked) */
+}
+
+/***********************/
+
+/*     Home    */
+.face {
+  margin-top: -10px;
+  margin-right: 1rem;
+  height: 250px;
+  border-radius: 50px;
+}
+
+/***********************/

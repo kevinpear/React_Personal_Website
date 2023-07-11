@@ -7,7 +7,7 @@ const NavigationBar = () => {
   return (
     <header className="navbar">
       <nav className="navbar-container">
-        <img src={logo} alt="Logo" className="logo" /> {/* Add your logo image */}
+        <img src={logo} alt="Logo" className="logo" /> 
         <ul className="nav-links">
           <li>
             <Link to="/">Home</Link>

@@ -9,15 +9,14 @@ import './App.css'; // Import the CSS file
 const App = () => {
   return (
     <Router>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <NavigationBar />
-      <div className="content-container">
-        <div className="bounded-box">
+      <div className="center-container">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/" element={<Home/>} />
+            <Route path="/projects" element={<Projects/>} />
+            <Route path="/about" element={<About/>} />
           </Routes>
-        </div>
       </div>
     </Router>
   );
