@@ -1,6 +1,7 @@
 import React from 'react';
 import face from './Kevin_face.png'; // Import your logo image
 import './Routes.css';
+import './Home.css';
 
 const Home = () => {
   return (

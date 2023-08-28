@@ -1,4 +1,6 @@
 import React from 'react';
+import './Routes.css';
+import './About.css';
 
 const About = () => {
   return (
@@ -18,7 +20,7 @@ const About = () => {
             The logo features a pear because, as a child, I mistakenly thought that my last name in Chinese, "Li" or "李," translated to "Pear". 
               (The correct translation is "Plum"; "Pear" is "梨"). 
               This led me to create multiple online profiles with pear-themed usernames. 
-              Even after learning the correct translation, I grew fond of the logo and decided to keep it.
+              After years of use, I grew fond of the theme and decided to keep it.
             </p>
             <h2 className="Title">Contact Information:</h2>
             <p>Email: kli295@wisc.edu</p>

@@ -1,0 +1,15 @@
+.generate-query-button {
+    font-size:.9vw;
+    padding: 5px 10px; /* Adjust padding to increase the button size */
+}
+  
+.csv-query-query {
+    font-size: .9vw;
+    padding: 6px; /* Adjust padding to increase the text field size */
+    margin-top: 0.4vw;
+    width: 50vw;
+}
+
+.generated-query {
+    white-space: pre-wrap;
+}

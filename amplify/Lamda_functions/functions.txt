@@ -1,0 +1,11 @@
+https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager
+
+curl https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager \
+-d '{"operation": "create", "payload": {"Item": {"id": "5678EFGH", "number": 15}}}'
+
+curl https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager \
+-d '{"operation": "delete", "payload": {"Key": {"id": "5678EFGH"}}}'
+
+
+curl https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager \
+-d '{"operation": "gpt_query", "payload": {"Key": {"id": "5678EFGH"}}}'

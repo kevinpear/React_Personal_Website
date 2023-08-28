@@ -40,14 +40,3 @@ a:active {
   color: green; /* Set the color for active links (when clicked) */
 }
 
-/***********************/
-
-/*     Home    */
-.face {
-  margin-top: -10px;
-  margin-right: 1rem;
-  height: 250px;
-  border-radius: 50px;
-}
-
-/***********************/
