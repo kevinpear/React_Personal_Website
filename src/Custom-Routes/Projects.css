@@ -1,15 +1,51 @@
 .generate-query-button {
     font-size:.9vw;
     padding: 5px 10px; /* Adjust padding to increase the button size */
-}
-  
-.csv-query-query {
+ }
+  .csv-query-query,.csv-gpt-prompt {
     font-size: .9vw;
     padding: 6px; /* Adjust padding to increase the text field size */
     margin-top: 0.4vw;
     width: 50vw;
-}
-
-.generated-query {
+ }
+ 
+ 
+ .generated-query {
     white-space: pre-wrap;
-}
+ }
+ 
+ 
+ #csv-table-container {
+    max-height: 400px; /* Adjust the maximum height as needed */
+    overflow: auto;
+ }
+ 
+ 
+ #csv-table {
+    width: 100%; /* Adjust the width as needed */
+    table-layout: fixed;
+    border-collapse: collapse; /* This property is crucial for cell borders */
+  }
+   /* Style for table headers (optional) */
+  .csv-table th {
+    background-color: #f2f2f2; /* Background color for header cells */
+    border: 1px solid #dddddd; /* Border for header cells */
+    padding: 8px;
+    text-align: left;
+  }
+   /* Style for table rows */
+  .csv-table-row {
+    max-height: 100px; /* Adjust the maximum row height as needed */
+    border: 1px solid #dddddd; /* Add border lines between rows */
+  }
+   /* Style for table cells */
+  .csv-table-cell {
+    padding: 8px;
+    max-width: 500px;
+    border: 1px solid #dddddd; /* Add border lines between cells */
+    word-break: break-all; /* Wrap long content within cells */
+    white-space: nowrap; /* Prevent content from wrapping to the next line */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowing content */
+  }
+ 
