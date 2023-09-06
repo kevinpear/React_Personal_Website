@@ -103,10 +103,16 @@ const Projects = () => {
   .then((blob) => {
     // Create a File object with a name (optional)
     const defaultCsvFile = new File([blob], 'default_File.csv', { type: 'text/csv' });
-    console.log(blob.text());
     console.log(defaultCsvFile);
     // Pass the File object to the Parse_CSV_File function
     Parse_CSV_File(defaultCsvFile);
+    return blob.text();
+  }).then((textData) => {
+    // Now you have the string data from the Blob
+    console.log(textData);
+
+    // If you want to pass this data to a function, do it here
+    // Parse_CSV_File(textData);
   })
   .catch((error) => {
     console.error('Error fetching default file:', error);
