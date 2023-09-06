@@ -1,5 +1,6 @@
- .run-query-button, .generate-query-button {
+ .run-query-button, .generate-query-button, .Default-File-button{
    font-size:.9vw;
+   margin-bottom: 0.7vw;
    padding: 5px 10px; /* Adjust padding to increase the button size */
 }
 
@@ -46,4 +47,7 @@
    white-space: nowrap; /* Prevent content from wrapping to the next line */
    overflow: hidden; /* Hide overflowing content */
    text-overflow: ellipsis; /* Display ellipsis (...) for overflowing content */
+ }
+ .Drop_Down{
+  margin-top: .5vw;
  }
