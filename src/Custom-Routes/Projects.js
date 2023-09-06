@@ -7,6 +7,7 @@ import defaultFile from './hw_200.csv';
 const initSqlJs = require('sql.js');
 
 
+
 const Projects = () => {
 
  // State variables to handle text box inputs
