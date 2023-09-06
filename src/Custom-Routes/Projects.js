@@ -6,8 +6,6 @@ import Papa from 'papaparse';
 import defaultFile from './hw_200.csv';
 const initSqlJs = require('sql.js');
 
-
-
 const Projects = () => {
 
  // State variables to handle text box inputs
@@ -99,12 +97,13 @@ const Projects = () => {
  };
 
  const Use_Default_File = () => {
+  console.log(defaultFile);
   fetch(defaultFile)
   .then((response) => response.blob()) // Fetch the file as a blob
   .then((blob) => {
     // Create a File object with a name (optional)
     const defaultCsvFile = new File([blob], 'Global_YouTube_Statistics.csv', { type: 'text/csv' });
-
+    console.log(defaultCsvFile);
     // Pass the File object to the Parse_CSV_File function
     Parse_CSV_File(defaultCsvFile);
   })
