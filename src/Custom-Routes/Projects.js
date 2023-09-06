@@ -26,6 +26,11 @@ const Projects = () => {
 
  const [db, setDb] = useState(null);
 
+
+ const [OpenAIQuery, setOpenAIQuery] = useState("");
+ const [OpenAIModel, setOpenAIModel] = useState("davinci");
+ const [openAI_Response, setOpenAI_Response] = useState("");
+
  useEffect(() => {
    // Initialize the database when the component mounts
    const initDatabase = async () => {
@@ -39,25 +44,11 @@ const Projects = () => {
    initDatabase();
  }, []);
 
- // Function to handle button click
- const Generate_Query = async () => {
-   // Add your desired logic here when the button is clicked
+ const Generate_SQL_Query = async () => {
    try {
-     const apiEndpoint = 'https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager';
-     const requestBody = {
-       operation: 'gpt_query',
-       payload: {
-         model: "gpt-3.5-turbo",
-         system_content: systemContent,
-         user_query: userQuery,
-       },
-     };
-     //console.log(systemContent);
+    const response = await openAI_API_Call("gpt-3.5-turbo",  systemContent, userQuery)
 
-     const response = await axios.post(apiEndpoint, requestBody);
-     //console.log('Full Response Data:', response.data);
-     // Assuming the response contains the 'generatedQuery' field you want to display
-     //const stringifiedData = JSON.stringify(response.data, null, 2);
+     console.log('Full Response Data:', response.data);
      const sanitizedData = response.data
        .replace(/[^\x20-\x7E\n]/g, '-') // Replace non-printable characters except \n with '-'
        .replace(/(["'\\])/g, '\\$1'); // Escape quotes and backslashes
@@ -67,10 +58,41 @@ const Projects = () => {
      Generate_SQL_Queried_Table();
    } catch (error) {
      console.error('Error occurred:', error);
-     setSqlQuery('Error occurred while making the request.');
+     setSqlQuery('Error occurred while making the request:' + error);
    }
  };
 
+ const General_Query = async () => {
+  try {
+    
+    const response = await openAI_API_Call(OpenAIModel,  "", OpenAIQuery)
+    console.log('Full Response Data:', response);
+
+    const sanitizedData = response.data
+      .replace(/[^\x20-\x7E\n]/g, '-') // Replace non-printable characters except \n with '-'
+      .replace(/(["'\\])/g, '\\$1'); // Escape quotes and backslashes
+     
+      setOpenAI_Response(sanitizedData);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    setOpenAI_Response('Error occurred while making the request.');
+  }
+};
+
+ async function openAI_API_Call(Model, System_content, User_query){
+  const apiEndpoint = 'https://vh8bz4x2e6.execute-api.us-east-1.amazonaws.com/test/dynamodbmanager';
+     const requestBody = {
+       operation: 'gpt_query',
+       payload: {
+         model: Model,
+         system_content: System_content,
+         user_query: User_query,
+       },
+     };
+     const response = await axios.post(apiEndpoint, requestBody);
+     return response;
+     //console.log(systemContent);
+ }
  const handleFileUpload = (e) => {
   Parse_CSV_File(e.target.files[0]);
  };
@@ -108,7 +130,7 @@ const Projects = () => {
             const header = Object.keys(result.data[0])
             .map((key) => {
               // Sanitize each column name by replacing special characters with underscores
-              const sanitizedKey = key === 'index' ? '"index"' : key.replace(/[^a-zA-Z0-9_,]/g, '_');
+              const sanitizedKey = key === 'index' ? '"index"' : key.replace(/[^a-zA-Z0-9_,]/g, ' ').trim().replace(" ", "_");
               return `"${sanitizedKey}"`;
             })
             .join(', ');
@@ -188,7 +210,65 @@ const rowCounts = [
   { label: '10000', value: 10000 },
 ];
 
- function GenericDropdownSelector({ options, selectedOption, onSelectOption }) {
+const models = [
+{ label: 'davinci',                        value: 'davinci' },
+{ label: 'gpt-3.5-turbo-16k-0613',         value: 'gpt-3.5-turbo-16k-0613' },
+{ label: 'text-davinci-001',               value: 'text-davinci-001' },
+{ label: 'text-search-curie-query-001',    value: 'text-search-curie-query-001' },
+{ label: 'gpt-3.5-turbo',                  value: 'gpt-3.5-turbo' },
+{ label: 'babbage',                        value: 'babbage' },
+{ label: 'text-babbage-001',               value: 'text-babbage-001' },
+{ label: 'gpt-3.5-turbo-16k',              value: 'gpt-3.5-turbo-16k' },
+{ label: 'curie-instruct-beta',            value: 'curie-instruct-beta' },
+{ label: 'davinci-similarity',             value: 'davinci-similarity' },
+{ label: 'code-davinci-edit-001',          value: 'code-davinci-edit-001' },
+{ label: 'text-similarity-curie-001',      value: 'text-similarity-curie-001' },
+{ label: 'ada-code-search-text',           value: 'ada-code-search-text' },
+{ label: 'gpt-3.5-turbo-0613',             value: 'gpt-3.5-turbo-0613' },
+{ label: 'text-search-ada-query-001',      value: 'text-search-ada-query-001' },
+{ label: 'babbage-search-query',           value: 'babbage-search-query' },
+{ label: 'ada-similarity',                 value: 'ada-similarity' },
+{ label: 'text-curie-001',                 value: 'text-curie-001' },
+{ label: 'text-search-ada-doc-001',        value: 'text-search-ada-doc-001' },
+{ label: 'text-search-babbage-query-001',  value: 'text-search-babbage-query-001' },
+{ label: 'code-search-ada-code-001',       value: 'code-search-ada-code-001' },
+{ label: 'curie-search-document',          value: 'curie-search-document' },
+{ label: 'davinci-002',                    value: 'davinci-002' },
+{ label: 'text-search-davinci-query-001',  value: 'text-search-davinci-query-001' },
+{ label: 'text-search-curie-doc-001',      value: 'text-search-curie-doc-001' },
+{ label: 'babbage-search-document',        value: 'babbage-search-document' },
+{ label: 'babbage-002',                    value: 'babbage-002' },
+{ label: 'babbage-code-search-text',       value: 'babbage-code-search-text' },
+{ label: 'text-embedding-ada-002',         value: 'text-embedding-ada-002' },
+{ label: 'davinci-instruct-beta',          value: 'davinci-instruct-beta' },
+{ label: 'davinci-search-query',           value: 'davinci-search-query' },
+{ label: 'text-similarity-babbage-001',    value: 'text-similarity-babbage-001' },
+{ label: 'text-davinci-002',               value: 'text-davinci-002' },
+{ label: 'code-search-babbage-text-001',   value: 'code-search-babbage-text-001' },
+{ label: 'text-davinci-003',               value: 'text-davinci-003' },
+{ label: 'text-search-davinci-doc-001',    value: 'text-search-davinci-doc-001' },
+{ label: 'code-search-ada-text-001',       value: 'code-search-ada-text-001' },
+{ label: 'ada-search-query',               value: 'ada-search-query' },
+{ label: 'text-similarity-ada-001',        value: 'text-similarity-ada-001' },
+{ label: 'ada-code-search-code',           value: 'ada-code-search-code' },
+{ label: 'whisper-1',                      value: 'whisper-1' },
+{ label: 'text-davinci-edit-001',          value: 'text-davinci-edit-001' },
+{ label: 'davinci-search-document',        value: 'davinci-search-document' },
+{ label: 'curie-search-query',             value: 'curie-search-query' },
+{ label: 'babbage-similarity',             value: 'babbage-similarity' },
+{ label: 'ada',                            value: 'ada' },
+{ label: 'ada-search-document',            value: 'ada-search-document' },
+{ label: 'text-ada-001',                   value: 'text-ada-001' },
+{ label: 'text-similarity-davinci-001',    value: 'text-similarity-davinci-001' },
+{ label: 'curie-similarity',               value: 'curie-similarity' },
+{ label: 'babbage-code-search-code',       value: 'babbage-code-search-code' },
+{ label: 'code-search-babbage-code-001',   value: 'code-search-babbage-code-001' },
+{ label: 'text-search-babbage-doc-001',    value: 'text-search-babbage-doc-001' },
+{ label: 'gpt-3.5-turbo-0301',             value: 'gpt-3.5-turbo-0301' },
+{ label: 'curie',                          value: 'curie' },
+];
+
+ function GenericDropdownSelector({ options, selectedOption, onSelectOption, text}) {
   const handleOptionChange = (event) => {
     const selectedValue = event.target.value;
     onSelectOption(selectedValue);
@@ -196,7 +276,7 @@ const rowCounts = [
 
   return (
     <div className='Drop_Down'>
-      <label>Max Rows: </label>
+      <label>{text}</label>
       <select value={selectedOption} onChange={handleOptionChange}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -220,9 +300,8 @@ const rowCounts = [
 
          <input type="file" accept=".csv" onChange={handleFileUpload}/>
          <button className='Default-File-button' onClick={Use_Default_File}>Use Default File</button>
-         <GenericDropdownSelector options={rowCounts} selectedOption={selectedRowCount1} onSelectOption={setSelectedRowCount1}/>
+         <GenericDropdownSelector options={rowCounts} selectedOption={selectedRowCount1} onSelectOption={setSelectedRowCount1} text="Max Rows:"/>
          
-
          <div id="csv-table-container">
            <table className="csv-table">
              <thead>
@@ -260,16 +339,15 @@ const rowCounts = [
          </div>
 
          <div>
-          <button className='generate-query-button' onClick={Generate_Query}>Generate Query</button>
+          <button className='generate-query-button' onClick={Generate_SQL_Query}>Generate Query</button>
          </div>
 
-         <textarea className='csv-query-query' name="myTextArea" id="myTextArea" type="text" value={SqlQuery} onChange={(e) => setSqlQuery(e.target.value)}>
-         </textarea>
+         <textarea className='csv-query-query' name="myTextArea" id="myTextArea" type="text" value={SqlQuery} onChange={(e) => setSqlQuery(e.target.value)}></textarea>
         
          <div>
           <button className='run-query-button' onClick={ Generate_SQL_Queried_Table}>Run Query</button>
          </div>
-         <GenericDropdownSelector options={rowCounts} selectedOption={selectedRowCount2} onSelectOption={setSelectedRowCount2}/>
+         <GenericDropdownSelector options={rowCounts} selectedOption={selectedRowCount2} onSelectOption={setSelectedRowCount2} text="Max Rows:"/>
          <div id="csv-table-container">
            <table className="csv-table">
             <thead>
@@ -291,6 +369,18 @@ const rowCounts = [
           </table>
         </div>
 
+        <br></br>
+        <br></br>
+
+        <h2 className="Title">OpenAI Model Comparison:</h2>
+      
+        <GenericDropdownSelector options={models} selectedOption={OpenAIModel} onSelectOption={setOpenAIModel} text="Model:"/>
+        <textarea className='openAI-query' name="myTextArea" id="myTextArea" type="text" value={OpenAIQuery} onChange={(e) => setOpenAIQuery(e.target.value)}></textarea>
+        <div>
+          <button className='run-query-button' onClick={General_Query}>Run Query</button>
+         </div>
+
+        <div><b>Response:</b> {openAI_Response}</div>
        </div>
      </article>
    </main>

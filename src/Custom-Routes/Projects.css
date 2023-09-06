@@ -4,7 +4,7 @@
    padding: 5px 10px; /* Adjust padding to increase the button size */
 }
 
- .csv-query-query,.csv-gpt-prompt {
+ .csv-query-query, .csv-gpt-prompt, .openAI-query{
    font-size: .9vw;
    padding: 6px; /* Adjust padding to increase the text field size */
    margin-top: 0.4vw;
