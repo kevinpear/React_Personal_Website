@@ -102,7 +102,8 @@ const Projects = () => {
   .then((response) => response.blob()) // Fetch the file as a blob
   .then((blob) => {
     // Create a File object with a name (optional)
-    const defaultCsvFile = new File([blob], 'Global_YouTube_Statistics.csv', { type: 'text/csv' });
+    const defaultCsvFile = new File([blob], 'default_File.csv', { type: 'text/csv' });
+    console.log(blob.text());
     console.log(defaultCsvFile);
     // Pass the File object to the Parse_CSV_File function
     Parse_CSV_File(defaultCsvFile);
