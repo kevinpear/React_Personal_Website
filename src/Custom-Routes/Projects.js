@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Projects.css'
 import './Routes.css';
 import Papa from 'papaparse';
-import defaultFile from './hw_200.csv';
+//import defaultFile from './hw_200.csv';
 const initSqlJs = require('sql.js');
 
 const Projects = () => {
@@ -96,6 +96,7 @@ const Projects = () => {
   Parse_CSV_File(e.target.files[0]);
  };
 
+ /*
  const Use_Default_File = () => {
   console.log(defaultFile);
   fetch(defaultFile)
@@ -118,6 +119,33 @@ const Projects = () => {
     console.error('Error fetching default file:', error);
   });
  };
+ */
+
+ const Hard_Coded_Default_File  = () => {
+  const dataArray = [
+    { Index: 1, "Height(Inches)": 65.78, "Weight(Pounds)": 112.99 },
+    { Index: 2, "Height(Inches)": 71.52, "Weight(Pounds)": 136.49 },
+    { Index: 3, "Height(Inches)": 69.4, "Weight(Pounds)": 153.03 },
+    { Index: 4, "Height(Inches)": 68.22, "Weight(Pounds)": 142.34 },
+    { Index: 5, "Height(Inches)": 67.79, "Weight(Pounds)": 144.3 },
+    { Index: 6, "Height(Inches)": 68.7, "Weight(Pounds)": 123.3 },
+    { Index: 7, "Height(Inches)": 69.8, "Weight(Pounds)": 141.49 },
+    { Index: 8, "Height(Inches)": 70.01, "Weight(Pounds)": 136.46 },
+    { Index: 9, "Height(Inches)": 67.9, "Weight(Pounds)": 112.37 },
+    { Index: 10, "Height(Inches)": 66.78, "Weight(Pounds)": 120.67 },
+    { Index: 11, "Height(Inches)": 66.49, "Weight(Pounds)": 127.45 },
+    { Index: 12, "Height(Inches)": 67.62, "Weight(Pounds)": 114.14 },
+    { Index: 13, "Height(Inches)": 68.3, "Weight(Pounds)": 125.61 },
+    // Add more objects as needed
+  ];
+  setTableData1(dataArray);
+  const header = "\"Index\", \"Height_Inches\", \"Weight_Pounds\"";
+  setSystemContent("You are a SQL query generator for a CSV file that is converted to a database named CSV_File. Only generate the query and nothing else. The header of the CSV file is \"Index\", \"Height_Inches\", \"Weight_Pounds\" and the first row is \"1, 65.78, 112.9\".");
+  db.run(`DROP TABLE IF EXISTS csv_data_original`);
+  db.run(`CREATE TABLE csv_data_original (${header})`);
+  db.run('INSERT INTO csv_data_original VALUES (1, 65.78, 112.99),\n (2, 71.52, 136.49),\n (3, 69.4, 153.03),\n (4, 68.22, 142.34),\n (5, 67.79, 144.3),\n (6, 68.7, 123.3),\n (7, 69.8, 141.49),\n (8, 70.01, 136.46),\n (9, 67.9, 112.37),\n (10, 66.78, 120.67),\n (11, 66.49, 127.45),\n (12, 67.62, 114.14),\n (13, 68.3, 125.61)');
+  Generate_SQL_Queried_Table();
+};
 
  function Parse_CSV_File(file){
    if (file) {
@@ -147,7 +175,6 @@ const Projects = () => {
             
             const systemContentString = `You are a SQL query generator for a CSV file that is converted to a database named CSV_File. Only generate the query and nothing else. The header of the CSV file is "${header}" and the first row is "${firstRow}".`;
             setSystemContent(systemContentString);
-
             // Setup database based on file data
             const values = result.data.map((row) =>
             Object.values(row).map((value) =>
@@ -158,6 +185,7 @@ const Projects = () => {
             db.run(`DROP TABLE IF EXISTS csv_data_original`);
             db.run(`CREATE TABLE csv_data_original (${header})`);
             db.run( Generate_Insert_SQL(values));
+            console.log(Generate_Insert_SQL(values));
             //console.log([db.exec("SELECT * FROM csv_data_original"),"table"]);
             Generate_SQL_Queried_Table();
           }
@@ -306,7 +334,7 @@ const models = [
          <h2 className="Title">CSV SQL Query Generator:</h2>
 
          <input type="file" accept=".csv" onChange={handleFileUpload}/>
-         <button className='Default-File-button' onClick={Use_Default_File}>Use Default File</button>
+         <button className='Default-File-button' onClick={Hard_Coded_Default_File}>Use Default File</button>
          <GenericDropdownSelector options={rowCounts} selectedOption={selectedRowCount1} onSelectOption={setSelectedRowCount1} text="Max Rows:"/>
          
          <div id="csv-table-container">
